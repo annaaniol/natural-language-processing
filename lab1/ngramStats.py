@@ -42,12 +42,11 @@ def writeToFile(filename, mostCommonNgrams):
             quotechar='|', quoting=csv.QUOTE_MINIMAL)
         for ngram in mostCommonNgrams:
             spamwriter.writerow([ngram[0],ngram[1]])
+    print('saved ' + filename)
 
-def main():
-    n, lang, top = readArguments()
+def countStats(n, lang, top):
     source = getSource(lang)
     resultFilename = getResultFilename(n, lang)
-
     ngramsList = []
 
     for x in range(len(source)-n+1):
@@ -56,8 +55,12 @@ def main():
     mostCommonNgrams = Counter(ngramsList).most_common(top)
 
     writeToFile(resultFilename, mostCommonNgrams)
-
-    print(mostCommonNgrams)
     return
 
-main()
+def main():
+    n, lang, top = readArguments()
+    countStats(n, lang, top)
+    return
+
+if __name__ == "__main__":
+    main()

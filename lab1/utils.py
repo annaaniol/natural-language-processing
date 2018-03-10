@@ -9,4 +9,4 @@ polishFiles = ['polish1.txt', 'polish2.txt', 'polish3.txt']
 spanishFiles = ['spanish1.txt', 'spanish2.txt']
 
 language = {'e':'english', 'en':'english', 'f':'finnish', 'fn':'finnish', 'g':'german', 'ge':'german',
- 'i':'italian', 'ii':'italian', 'p':'polish', 'pl':'polish', 's':'spanish', 'es': 'spanish'}
+ 'i':'italian', 'it':'italian', 'p':'polish', 'pl':'polish', 's':'spanish', 'es': 'spanish'}
