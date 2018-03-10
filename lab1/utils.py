@@ -9,6 +9,9 @@ gnuplotIdentificationDir = 'gnuplot/identification/'
 drawStatsScript = 'gnuplot/drawStats.plg'
 drawIdentificationScript = 'gnuplot/drawIdentification.plg'
 
+testfilePL = sourcesDir + 'testfilePL.txt'
+testfileEN = sourcesDir + 'testfileEN.txt'
+
 englishFiles = ['english1.txt', 'english2.txt', 'english3.txt', 'english4.txt']
 finnishFiles = ['finnish1.txt', 'finnish2.txt']
 germanFiles = ['german1.txt', 'german2.txt', 'german3.txt', 'german4.txt']

@@ -13,26 +13,28 @@ def countScore(n, lang, sentence):
     score = 0
     source = ngramStats.getSource(lang)
 
-    languageNgrams = ngramStats.getNgrams(n, source)
-    top10 = Counter(languageNgrams).most_common(10)
-    top50 = Counter(languageNgrams).most_common(50)
-    top200 = Counter(languageNgrams).most_common(200)
-    top500 = Counter(languageNgrams).most_common(500)
+    top10filename = resultsStatsDir + lang + '/' + str(n) + '/' + 'top10.csv'
+    top50filename = resultsStatsDir + lang + '/' + str(n) + '/' + 'top50.csv'
+    top200filename = resultsStatsDir + lang + '/' + str(n) + '/' + 'top200.csv'
+    top500filename = resultsStatsDir + lang + '/' + str(n) + '/' + 'top500.csv'
 
     sentenceNgrams = ngramStats.getNgrams(n, sentence)
 
     #top10: 18, top50: 8, top200: 3, top500: 1
-    for key, value in top10:
-        score += sentenceNgrams.count(key)*10
 
-    for key, value in top50:
-        score += sentenceNgrams.count(key)*5
+    lines10 = [l.strip() for l in open(top10filename).readlines()]
+    lines50 = [l.strip() for l in open(top50filename).readlines()]
+    lines200 = [l.strip() for l in open(top200filename).readlines()]
+    lines500 = [l.strip() for l in open(top500filename).readlines()]
 
-    for key, value in top200:
-        score += sentenceNgrams.count(key)*2
-
-    for key, value in top500:
-        score += sentenceNgrams.count(key)
+    for line in lines10:
+        score += sentenceNgrams.count(line)*10
+    for line in lines50:
+        score += sentenceNgrams.count(line)*5
+    for line in lines200:
+        score += sentenceNgrams.count(line)*2
+    for line in lines500:
+        score += sentenceNgrams.count(line)
 
     return score
 
@@ -41,7 +43,7 @@ def identify(n, sentence):
     bestMatch = ''
     for key, value in language.items():
         newScore = countScore(n, key, sentence)
-        print(key, newScore)
+        # print(key, newScore)
         if newScore >= bestScore:
             bestMatch = language[key]
             bestScore = newScore
