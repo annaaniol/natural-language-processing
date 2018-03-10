@@ -2,12 +2,17 @@ sourcesDir = 'sources/'
 
 resultsStatsDir = 'results/stats/'
 resultsIdentificationDir = 'results/identification/'
+resultsCorrenctnessDir = 'results/correctness/'
+
+resultsCorrenctnessFile = 'correctness.csv'
 
 gnuplotStatsDir = 'gnuplot/stats/'
 gnuplotIdentificationDir = 'gnuplot/identification/'
+gnuplotCorrenctnessFile = 'gnuplot/correcntess/correcntess.svg'
 
 drawStatsScript = 'gnuplot/drawStats.plg'
 drawIdentificationScript = 'gnuplot/drawIdentification.plg'
+drawCorrectnessScript = 'gnuplot/drawCorrectness.plg'
 
 testfilePL = sourcesDir + 'testfilePL.txt'
 testfileEN = sourcesDir + 'testfileEN.txt'

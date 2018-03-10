@@ -3,3 +3,9 @@ set xtics rotate
 set datafile separator ','
 set output outputname
 plot datafile using 2: xtic(1) with histogram
+
+
+,\
+datafile using 1:(stringcolumn(2) eq "recall" ? $3 : 1/0) title "recall"  with points pointtype 5,\
+datafile using 1:(stringcolumn(2) eq "F1" ? $3 : 1/0) title "F1"  with points pointtype 5,\
+datafile using 1:(stringcolumn(2) eq "accuracy" ? $3 : 1/0) title "accuracy"  with points pointtype 5

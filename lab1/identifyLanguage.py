@@ -20,12 +20,12 @@ def countScore(n, lang, sentence):
 
     sentenceNgrams = ngramStats.getNgrams(n, sentence)
 
-    #top10: 18, top50: 8, top200: 3, top500: 1
-
     lines10 = [l.strip() for l in open(top10filename).readlines()]
     lines50 = [l.strip() for l in open(top50filename).readlines()]
     lines200 = [l.strip() for l in open(top200filename).readlines()]
     lines500 = [l.strip() for l in open(top500filename).readlines()]
+
+    #top10: 18, top50: 8, top200: 3, top500: 1
 
     for line in lines10:
         score += sentenceNgrams.count(line)*10

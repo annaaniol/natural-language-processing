@@ -1,6 +1,7 @@
 set terminal svg
 set datafile separator ','
 set output outputname
+set xlabel "n-grams"
 plot datafile using 1:(stringcolumn(3) eq "en" ? $2 : 1/0) title "EN"  with points pointtype 5,\
 datafile using 1:(stringcolumn(3) eq "pl" ? $2 : 1/0) title "PL"  with points pointtype 5,\
 datafile using 1:(stringcolumn(3) eq "ge" ? $2 : 1/0) title "GE"  with points pointtype 5,\
