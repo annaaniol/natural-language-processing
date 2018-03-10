@@ -8,5 +8,5 @@ italianFiles = ['italian1.txt', 'italian2.txt']
 polishFiles = ['polish1.txt', 'polish2.txt', 'polish3.txt']
 spanishFiles = ['spanish1.txt', 'spanish2.txt']
 
-language = {'e':'english', 'en':'english', 'f':'finnish', 'fn':'finnish', 'g':'german', 'ge':'german',
- 'i':'italian', 'it':'italian', 'p':'polish', 'pl':'polish', 's':'spanish', 'es': 'spanish'}
+language = {'en':'english', 'fn':'finnish', 'ge':'german',
+ 'it':'italian', 'pl':'polish', 'es': 'spanish'}

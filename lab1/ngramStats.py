@@ -44,13 +44,17 @@ def writeToFile(filename, mostCommonNgrams):
             spamwriter.writerow([ngram[0],ngram[1]])
     print('saved ' + filename)
 
-def countStats(n, lang, top):
-    source = getSource(lang)
-    resultFilename = getResultFilename(n, lang)
+def getNgrams(n, source):
     ngramsList = []
-
     for x in range(len(source)-n+1):
         ngramsList.append(source[x:x+n])
+    return ngramsList
+
+def countStats(n, lang, top):
+    source = getSource(lang)
+    ngramsList = getNgrams(n, source)
+
+    resultFilename = getResultFilename(n, lang)
 
     mostCommonNgrams = Counter(ngramsList).most_common(top)
 
