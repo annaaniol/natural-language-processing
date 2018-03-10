@@ -47,9 +47,26 @@ def identify(n, sentence):
             bestScore = newScore
     return bestMatch
 
+def identifyAndWriteToFile(n, sentence):
+    bestScore = 0
+    bestMatch = ''
+    filename = resultsIdentificationDir + sentence + '.csv'
+
+    with open(filename, 'a', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=',',
+            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+        for key, value in language.items():
+            newScore = countScore(n, key, sentence)
+            spamwriter.writerow([n, newScore, key])
+            if newScore >= bestScore:
+                bestMatch = language[key]
+                bestScore = newScore
+    return bestMatch
+
 def main():
     n, sentence = readArguments()
-    matchedLanguage = identify(n, sentence)
+    matchedLanguage = identifyAndWriteToFile(n, sentence)
     print(matchedLanguage)
     return
 

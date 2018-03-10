@@ -33,7 +33,7 @@ def readArguments():
     return n, lang, top
 
 def getResultFilename(n, lang):
-    filename = resultsDir + language[lang] + '-' + str(n) + '.csv'
+    filename = resultsStatsDir + language[lang] + '-' + str(n) + '.csv'
     return filename
 
 def writeToFile(filename, mostCommonNgrams):

@@ -1,5 +1,13 @@
 sourcesDir = 'sources/'
-resultsDir = 'results/'
+
+resultsStatsDir = 'results/stats/'
+resultsIdentificationDir = 'results/identification/'
+
+gnuplotStatsDir = 'gnuplot/stats/'
+gnuplotIdentificationDir = 'gnuplot/identification/'
+
+drawStatsScript = 'gnuplot/drawStats.plg'
+drawIdentificationScript = 'gnuplot/drawIdentification.plg'
 
 englishFiles = ['english1.txt', 'english2.txt', 'english3.txt', 'english4.txt']
 finnishFiles = ['finnish1.txt', 'finnish2.txt']

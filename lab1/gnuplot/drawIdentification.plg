@@ -1,0 +1,9 @@
+set terminal svg
+set datafile separator ','
+set output outputname
+plot datafile using 1:(stringcolumn(3) eq "en" ? $2 : 1/0) title "EN"  with points pointtype 5,\
+datafile using 1:(stringcolumn(3) eq "pl" ? $2 : 1/0) title "PL"  with points pointtype 5,\
+datafile using 1:(stringcolumn(3) eq "ge" ? $2 : 1/0) title "GE"  with points pointtype 5,\
+datafile using 1:(stringcolumn(3) eq "it" ? $2 : 1/0) title "IT"  with points pointtype 5,\
+datafile using 1:(stringcolumn(3) eq "fn" ? $2 : 1/0) title "FN"  with points pointtype 5,\
+datafile using 1:(stringcolumn(3) eq "es" ? $2 : 1/0) title "ES"  with points pointtype 5
