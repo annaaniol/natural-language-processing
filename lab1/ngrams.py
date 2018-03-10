@@ -1,15 +1,63 @@
 from collections import Counter
+from utils import *
+import sys
+import csv
 
-english = open('sources/english1.txt').read().lower()
-english += open('sources/english2.txt').read().lower()
-english += open('sources/english3.txt').read().lower()
-english += open('sources/english4.txt', encoding='latin-1').read().lower()
+def getSource(lang):
+    if language[lang]=='english':
+        source = processFiles(englishFiles)
+    elif language[lang]=='finnish':
+        source = processFiles(finnishFiles)
+    elif language[lang]=='german':
+        source = processFiles(germanFiles)
+    elif language[lang]=='italian':
+        source = processFiles(italianFiles)
+    elif language[lang]=='polish':
+        source = processFiles(polishFiles)
+    elif language[lang]=='spanish':
+        source = processFiles(spanishFiles)
+    else:
+        sys.exit('Unsupported language')
+    return source
 
-n = 10
+def processFiles(files):
+    source = ''
+    for filename in files:
+        source += open(sourcesDir+filename, encoding='latin-1').read().lower()
+    return source
 
-englishNgrams = []
+def readArguments():
+    n = int(sys.argv[1])
+    lang = sys.argv[2]
+    top = int(sys.argv[3])
+    return n, lang, top
 
-for x in range(len(english)-n+1):
-    englishNgrams.append(english[x:x+n])
+def getResultFilename(n, lang):
+    filename = resultsDir + language[lang] + '-' + str(n) + '.csv'
+    return filename
 
-print(Counter(englishNgrams).most_common(100))
+def writeToFile(filename, mostCommonNgrams):
+    with open(filename, 'w', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=',',
+            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        for ngram in mostCommonNgrams:
+            spamwriter.writerow([ngram[0],ngram[1]])
+
+def main():
+    n, lang, top = readArguments()
+    source = getSource(lang)
+    resultFilename = getResultFilename(n, lang)
+
+    ngramsList = []
+
+    for x in range(len(source)-n+1):
+        ngramsList.append(source[x:x+n])
+
+    mostCommonNgrams = Counter(ngramsList).most_common(top)
+
+    writeToFile(resultFilename, mostCommonNgrams)
+
+    print(mostCommonNgrams)
+    return
+
+main()
