@@ -1,0 +1,10 @@
+set terminal svg
+set datafile separator ','
+set output outputname
+set xrange [1:maxRankNumber]
+
+set title "Zipf's law"
+set xlabel "Ranking possition"
+set ylabel "Occurrences"
+
+plot datafile using 1:($1 < maxRankNumber ? $2 : 1/0) with lines
