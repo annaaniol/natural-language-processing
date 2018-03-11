@@ -1,6 +1,8 @@
 import csv
 import sys
+import os
 import string
+import ntpath
 from utils import *
 
 def readArguments():
@@ -58,13 +60,26 @@ def generatePrimaryFormRankFromFiles(dictionaryFile, textFile):
 
     return primaryFormRank
 
+def writeToFile(filename, primaryFormRank):
+    with open(filename, 'a', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=',',
+            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+        for primaryForm, occurrences in primaryFormRank:
+            spamwriter.writerow([occurrences, primaryForm])
+
+def generateRankFilename(sourcefile):
+    rankFilename = resultsDir + os.path.splitext(ntpath.basename(sourcefile))[0] + '.csv'
+    print(rankFilename)
+    return rankFilename
+
 
 def main():
     textFile = readArguments()
     primaryFormRank = generatePrimaryFormRankFromFiles(dictionaryFile, textFile)
 
-    print(primaryFormRank[0:5])
-
+    rankFilename = generateRankFilename(textFile)
+    writeToFile(rankFilename, primaryFormRank)
 
 if __name__ == "__main__":
     main()
