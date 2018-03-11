@@ -1,0 +1,8 @@
+set terminal svg
+set datafile separator ','
+set output outputname
+set xlabel "n-grams"
+plot datafile using 1:(stringcolumn(2) eq "precision" ? $3 : 1/0) title "precision"  with points pointtype 5,\
+datafile using 1:(stringcolumn(2) eq "recall" ? $3 : 1/0) title "recall"  with points pointtype 5,\
+datafile using 1:(stringcolumn(2) eq "F1" ? $3 : 1/0) title "F1"  with points pointtype 5,\
+datafile using 1:(stringcolumn(2) eq "accuracy" ? $3 : 1/0) title "accuracy"  with points pointtype 5
