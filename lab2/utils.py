@@ -1,0 +1,1 @@
+dictionaryFile = 'sources/odm.txt'
