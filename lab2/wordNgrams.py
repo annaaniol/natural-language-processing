@@ -2,13 +2,16 @@ import sys
 import os
 import csv
 import nltk
+from nltk.tokenize import RegexpTokenizer
 from nltk.util import ngrams
 from nltk import word_tokenize
 from collections import Counter
 from utils import *
 
 def getNgramsRank(n, content):
-    token = nltk.word_tokenize(content)
+    tokenizer = RegexpTokenizer(r'\w+')
+    token = tokenizer.tokenize(content)
+
     ngramsGenerator = ngrams(token, n)
     ngramsRank = Counter(ngramsGenerator).most_common()
 
