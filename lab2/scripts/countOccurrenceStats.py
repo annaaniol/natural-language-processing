@@ -2,10 +2,10 @@ import sys
 import os
 from utils import *
 
-def countHapaxLegomena():
+def countHapaxLegomena(rankFilename):
     hapaxLegomenaCounter = 0
 
-    with open(resultsPotopRankFile) as file:
+    with open(rankFilename) as file:
          lines = file.readlines()
 
          for line in lines:
@@ -16,10 +16,10 @@ def countHapaxLegomena():
     file.close()
     return hapaxLegomenaCounter
 
-def countAllWordsWithRepetitions():
+def countAllWordsWithRepetitions(rankFilename):
     allWordsCounter = 0
 
-    with open(resultsPotopRankFile) as file:
+    with open(rankFilename) as file:
          lines = file.readlines()
 
          for line in lines:
@@ -29,12 +29,12 @@ def countAllWordsWithRepetitions():
     file.close()
     return allWordsCounter
 
-def countWordsIn50Percent(allWordsWithRepetitions):
+def countWordsIn50Percent(allWordsWithRepetitions, rankFilename):
     uniqueWordsIn50Percent = 0
     number50Percent = allWordsWithRepetitions/2
     processedOccurrencesNumber = 0
 
-    with open(resultsPotopRankFile) as file:
+    with open(rankFilename) as file:
          lines = file.readlines()
 
          for line in lines:
@@ -46,10 +46,10 @@ def countWordsIn50Percent(allWordsWithRepetitions):
     file.close()
     return uniqueWordsIn50Percent
 
-def countUniqueWords():
+def countUniqueWords(rankFilename):
     uniqueWords = 0
 
-    with open(resultsPotopRankFile) as file:
+    with open(rankFilename) as file:
          lines = file.readlines()
          uniqueWords = len(lines)
 
@@ -57,17 +57,17 @@ def countUniqueWords():
     return uniqueWords
 
 def main():
-    hapaxLegomena = countHapaxLegomena()
+    hapaxLegomena = countHapaxLegomena(resultsPotopRankFile)
 
-    print('Hapax legomena: ', hapaxLegomena)
+    print('Hapax legomena:', hapaxLegomena)
 
-    allWordsWithRepetitions = countAllWordsWithRepetitions()
-    uniqueWords = countUniqueWords()
-    uniqueWordsIn50Percent = countWordsIn50Percent(allWordsWithRepetitions)
+    allWordsWithRepetitions = countAllWordsWithRepetitions(resultsPotopRankFile)
+    uniqueWords = countUniqueWords(resultsPotopRankFile)
+    uniqueWordsIn50Percent = countWordsIn50Percent(allWordsWithRepetitions, resultsPotopRankFile)
 
-    print('All words with repetitions: ', allWordsWithRepetitions)
-    print('Unique words: ', uniqueWords)
-    print('Unique words in 50% of text: ', uniqueWordsIn50Percent)
+    print('All words:', allWordsWithRepetitions)
+    print('Unique words (reduced to primary form):', uniqueWords)
+    print('Unique words in 50% of the text:', uniqueWordsIn50Percent)
 
 
 if __name__ == "__main__":

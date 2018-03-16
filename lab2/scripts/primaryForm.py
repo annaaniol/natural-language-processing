@@ -42,11 +42,15 @@ def generatePrimaryFormRankFromStructures(dictionary, allWords):
     for primaryForm, otherForms in dictionary:
         primaryFormDict.update({primaryForm:0})
 
-    for primaryForm, otherForms in dictionary:
-        occurrences = allWords.count(primaryForm) + allWords.count(otherForms[1:])
-        primaryFormDict[primaryForm] = occurrences
+    for word in allWords:
+        currentOccurences= primaryFormDict.get(word)
+        if currentOccurences is None:
+            primaryFormDict.update({word:1})
+        else:
+            primaryFormDict[word] = currentOccurences+1
 
-    sortedRank = sorted(primaryFormDict.items(), key = lambda x: x[1], reverse=True)
+    presentPrimaryFormDict = {word: occurrences for word, occurrences in primaryFormDict.items() if occurrences>0}
+    sortedRank = sorted(presentPrimaryFormDict.items(), key = lambda x: x[1], reverse=True)
 
     return sortedRank
 
@@ -65,8 +69,10 @@ def writeToFile(filename, primaryFormRank):
         spamwriter = csv.writer(csvfile, delimiter=',',
             quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
+        rankPossition = 1
         for primaryForm, occurrences in primaryFormRank:
-            spamwriter.writerow([occurrences, primaryForm])
+            spamwriter.writerow([rankPossition, occurrences, primaryForm])
+            rankPossition += 1
 
 def generateRankFilename(sourcefile):
     rankFilename = resultsDir + os.path.splitext(ntpath.basename(sourcefile))[0] + '.csv'
