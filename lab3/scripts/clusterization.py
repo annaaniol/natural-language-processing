@@ -1,47 +1,50 @@
 import string
+from leven import levenshtein
+import numpy as np
+from sklearn.cluster import DBSCAN
 from preprocessing import *
+from utils import *
 
-def call_counter(func):
-    def helper(*args, **kwargs):
-        helper.calls += 1
-        return func(*args, **kwargs)
-    helper.calls = 0
-    helper.__name__= func.__name__
-    return helper
+documents = []
 
-def memoize(func):
-    mem = {}
-    def memoizer(*args, **kwargs):
-        key = str(args) + str(kwargs)
-        if key not in mem:
-            mem[key] = func(*args, **kwargs)
-        return mem[key]
-    return memoizer
+def levenshteinMetric(x, y):
+    i, j = int(x[0]), int(y[0])     # extract indices
+    return levenshtein(documents[i], documents[j])
 
-@call_counter
-@memoize
-def levenshtein(s, t):
-    if s == "":
-        return len(t)
-    if t == "":
-        return len(s)
-    if s[-1] == t[-1]:
-        cost = 0
-    else:
-        cost = 1
+def generateClustersDict(labels):
+    clusters = {}
+    n = 0
 
-    res = min([levenshtein(s[:-1], t)+1,
-               levenshtein(s, t[:-1])+1,
-               levenshtein(s[:-1], t[:-1]) + cost])
-    return res
+    for item in labels:
+        if item in clusters:
+            clusters[item].append(documents[n])
+        else:
+            clusters[item] = [documents[n]]
+        n +=1
+
+    for item in clusters:
+        print("Cluster ", item)
+        for i in clusters[item]:
+            print(i)
+
+def clusterize(metric):
+    X = np.arange(len(documents)).reshape(-1, 1)
+    db = DBSCAN(eps=20, min_samples=1, metric=metric).fit(X)
+
+    clusters = generateClustersDict(db.labels_)
+
+    return clusters
 
 def main():
     # sourcefile = sys.argv[1]
     sourcefile = linesFile
     linesWithoutStopWords = performPreprocessing(sourcefile)
-    print(levenshtein("ala ma kota, ale rudego", "ala ma psa który jest czarny"))
-    print(levenshtein("abababa", "abababa 22"))
+    linesWithoutStopWords = linesWithoutStopWords[0:100]
 
+    global documents
+    documents = linesWithoutStopWords
+
+    levenshteinClusters = clusterize(levenshteinMetric)
 
 if __name__ == "__main__":
     main()
