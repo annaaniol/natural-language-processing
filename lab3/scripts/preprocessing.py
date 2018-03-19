@@ -68,8 +68,8 @@ def performPreprocessing(sourcefile):
     return linesWithoutStopWords
 
 def main():
-    # sourcefile = sys.argv[1]
-    sourcefile = linesFile
+    sourcefile = sys.argv[1]
+    # sourcefile = linesFile
     linesWithoutStopWords = performPreprocessing(sourcefile)
 
 if __name__ == "__main__":
