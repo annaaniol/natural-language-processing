@@ -4,16 +4,50 @@ import tokenize
 import re
 from utils import *
 
+def simpleLinePreprocessing(line):
+    replacePunctuation = str.maketrans(string.punctuation, ' '*len(string.punctuation))
+    newLine = line.translate(replacePunctuation).lower()
+    newLine = ' '.join(newLine.split())
+    return newLine
+
+def advancedLinePreprocessing(line):
+    replacePunctuation = str.maketrans(string.punctuation, ' '*len(string.punctuation))
+    newLine = line.translate(replacePunctuation).lower()
+    # remove emails
+    newLine = re.sub( r'([e{0,1}[-]{0,1}mail]){0,1}[a-z0-9:.]+@[a-z0-9:.]+', '', newLine)
+    # replace punctuation with spaces
+    replacePunctuation = str.maketrans(string.punctuation, ' '*len(string.punctuation))
+    # reduce multiple spaces
+    newLine = ' '.join(newLine.split())
+    # split numbers and words with a space
+    newLine = re.sub( r'([a-zA-Z])([0-9])', r'\1 \2', newLine)
+    newLine = re.sub( r'([0-9])([a-zA-Z])', r'\1 \2', newLine)
+    # apply pseudo dictionary
+    newLine = newLine.replace('st petersburg', 'petersburg')
+    newLine = newLine.replace('s petersburg', 'petersburg')
+    newLine = newLine.replace('saint petersburg', 'petersburg')
+    newLine = newLine.replace('warsaw', 'warszawa')
+    newLine = newLine.replace('peoples republic of china', 'china')
+    newLine = newLine.replace('peoples republic china', 'china')
+    newLine = newLine.replace('russian federation', 'russia')
+    newLine = newLine.replace('off', 'office')
+    # remove telephone numbers
+    newLine = re.sub( r'(tel|fax)([ 0-9]*)', '', newLine)
+    # sort alphabetically
+    items = sorted(newLine.split())
+    newLine = ' '.join(items)
+
+    return newLine
+
 def simplifyLines(lines):
     simplifiedLines = []
 
-    replacePunctuation = str.maketrans(string.punctuation, ' '*len(string.punctuation))
-
     for line in lines:
-        newLine = line.translate(replacePunctuation).lower()
-        newLine = ' '.join(newLine.split())
+        # newLine = simpleLinePreprocessing(line)
+        newLine = advancedLinePreprocessing(line)
         simplifiedLines.append(newLine)
 
+    print('Lines simplified')
     return simplifiedLines
 
 def generateStopWords(lines):
@@ -64,6 +98,8 @@ def performPreprocessing(sourcefile):
     simplifiedLines = simplifyLines(lines)
     # stopWords = generateStopWords(simplifiedLines)
     stopWords = ['no','o','ltd','road','co','sp','a','fax','ul','tel','z','of']
+    additionalStopWords = ['email', 'e mail', 'mail' 'st', 'str', 'street', 'zip code', 'zip']
+    stopWords.extend(additionalStopWords)
     linesWithoutStopWords = removeStopWordsFromLines(stopWords, simplifiedLines)
     return linesWithoutStopWords
 

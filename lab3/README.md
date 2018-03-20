@@ -24,7 +24,7 @@ However, some of them are considered meaningful:
 
 > poland, china, logistics, russia, 7
 
-Therefore the stop words are:
+Therefore the basic stop words are:
 
 > no, o, ltd, road, co, sp, a, fax, ul, tel, z, of
 
@@ -39,3 +39,12 @@ Example run:
 ```
 python3 scripts/clusterization.py sources/lines.txt lev
 ```
+
+What could be done to improve clusterization:
+1. better preprocessing
+  - modify Levenshtein metric when both inputs shorter then clustering eps
+  - remove all phone numbers and emails (regex) ?
+  - always split numbers and letters with a space
+  - sort all string words alphabetically ?
+  - translate names to a base language (e.g. Warsaw -> Warszawa)
+  - change names to a base form (e.g. St-Petersburg -> Saint Petersburg)
