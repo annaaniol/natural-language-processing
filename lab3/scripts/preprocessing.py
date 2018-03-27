@@ -23,19 +23,15 @@ def advancedLinePreprocessing(line):
     newLine = re.sub( r'([a-zA-Z])([0-9])', r'\1 \2', newLine)
     newLine = re.sub( r'([0-9])([a-zA-Z])', r'\1 \2', newLine)
     # apply pseudo dictionary
-    newLine = newLine.replace('st petersburg', 'petersburg')
-    newLine = newLine.replace('s petersburg', 'petersburg')
-    newLine = newLine.replace('saint petersburg', 'petersburg')
-    newLine = newLine.replace('warsaw', 'warszawa')
-    newLine = newLine.replace('peoples republic of china', 'china')
-    newLine = newLine.replace('peoples republic china', 'china')
-    newLine = newLine.replace('russian federation', 'russia')
-    newLine = newLine.replace('off', 'office')
+    for key, listOfValues in preprocessingDict.items():
+        for value in listOfValues:
+            newLine = newLine.replace(value, key)
+
     # remove telephone numbers
     newLine = re.sub( r'(tel|fax)([ 0-9]*)', '', newLine)
     # sort alphabetically
     items = sorted(newLine.split())
-    newLine = ' '.join(items)
+    newLine = ''.join(items)
 
     return newLine
 
@@ -102,11 +98,3 @@ def performPreprocessing(sourcefile):
     stopWords.extend(additionalStopWords)
     linesWithoutStopWords = removeStopWordsFromLines(stopWords, simplifiedLines)
     return linesWithoutStopWords
-
-def main():
-    sourcefile = sys.argv[1]
-    # sourcefile = linesFile
-    linesWithoutStopWords = performPreprocessing(sourcefile)
-
-if __name__ == "__main__":
-    main()
