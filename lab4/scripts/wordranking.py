@@ -1,6 +1,7 @@
 import string
 import itertools
 import csv
+import sys
 from pathlib import Path
 from utils import *
 
@@ -52,7 +53,7 @@ def generate_word_rank_from_rank_file(filename):
     # print(word_rank)
     return word_rank
 
-def get_word_occurences(word, rank_file_name, corpus_file_name):
+def get_word_occurences_count(word, rank_file_name, corpus_file_name):
     rank_file = Path(rank_file_name)
 
     if rank_file.is_file():
@@ -80,9 +81,16 @@ def get_all_words_in_corpus_count(filename):
 
     return count
 
+def get_dictionary_size(filename):
+    count = 0
+    with open(filename, 'r', newline='', encoding='utf8') as sourcefile:
+        content = sourcefile.read().split()
+        for word in content:
+            count +=1
+    return count
+
 def main():
     rank_file = Path(RANK_FILE_NAME)
-
     if rank_file.is_file():
         print('is file')
         word_rank = generate_word_rank_from_rank_file(RANK_FILE_NAME)
