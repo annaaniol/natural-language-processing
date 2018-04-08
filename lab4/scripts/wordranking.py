@@ -37,7 +37,6 @@ def generate_word_rank(all_words, filename):
         else:
             word_rank[word] = number_of_occurences + 1
 
-    # print(word_rank)
     write_rank_to_file(word_rank, RANK_FILE_NAME)
     return word_rank
 
@@ -50,14 +49,12 @@ def generate_word_rank_from_rank_file(filename):
             token, occurences = line.split(',')
             word_rank[token.rstrip()] = int(occurences.rstrip())
 
-    # print(word_rank)
     return word_rank
 
 def get_word_occurences_count(word, rank_file_name, corpus_file_name):
     rank_file = Path(rank_file_name)
 
     if rank_file.is_file():
-        print('Rank file already exists.')
         word_rank = generate_word_rank_from_rank_file(rank_file_name)
     else:
         print('No rank file. Creating a word ranking from corpus file.')
